@@ -1,28 +1,32 @@
 {
-  "name": "inpi-db",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "download": "tsx src/download.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/adm-zip": "^0.5.0",
-    "@types/isomorphic-fetch": "^0.0.36",
-    "@types/node": "^20.3.1",
-    "@typescript-eslint/eslint-plugin": "^5.60.0",
-    "@typescript-eslint/parser": "^5.60.0",
-    "eslint": "^8.43.0",
-    "tsup": "^7.0.0",
-    "tsx": "^3.12.7",
-    "typescript": "^5.1.3"
-  },
-  "dependencies": {
-    "adm-zip": "^0.5.10",
-    "date-fns": "^2.30.0",
-    "isomorphic-fetch": "^3.0.0"
-  }
+    "name": "inpi-db",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "download": "tsx src/download.ts",
+        "unzip": "tsx src/unzip.ts",
+        "unzip:clean": "rm data/revistas/*.json"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/adm-zip": "^0.5.0",
+        "@types/isomorphic-fetch": "^0.0.36",
+        "@types/node": "^20.3.1",
+        "@types/xml2js": "^0.4.11",
+        "@typescript-eslint/eslint-plugin": "^5.60.0",
+        "@typescript-eslint/parser": "^5.60.0",
+        "eslint": "^8.43.0",
+        "tsup": "^7.0.0",
+        "tsx": "^3.12.7",
+        "typescript": "^5.1.3"
+    },
+    "dependencies": {
+        "adm-zip": "^0.5.10",
+        "date-fns": "^2.30.0",
+        "isomorphic-fetch": "^3.0.0",
+        "xml2js": "^0.6.0"
+    }
 }

@@ -14,7 +14,7 @@ async function downloadAll() {
     // Check for missing journals.
     const downloadList = createDownloadList();
 
-    console.log(`-> ${downloadList.length} journal(s) to download.\n`);
+    console.log(`-> download: ${downloadList.length} journal(s) to download.\n`);
 
     if (downloadList.length === 0) {
         return;
@@ -25,7 +25,6 @@ async function downloadAll() {
     const delay = 60000; // 1 minute
     const sleep = async (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-    console.log("Downloading...");
     for (let i = 0; i < downloadList.length; i += requestLimit) {
         const downloadListSlice = downloadList.slice(i, i + requestLimit);
         console.log(`-> ${i} to ${i + downloadListSlice.length - 1}`);
