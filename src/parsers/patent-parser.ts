@@ -1,10 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import xml2js from "xml2js";
-
-export async function patentParser(xml: string) {
-    const result = await xml2js.parseStringPromise(xml);
-
+export function patentParser(result: { [key: string]: any }): { [key: string]: any } {
     return {
         revista: {
             numero: getJournalNumber(result),

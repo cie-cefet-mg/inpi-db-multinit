@@ -4,9 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "download": "tsx src/download.ts",
-        "unzip": "tsx src/unzip.ts",
-        "unzip:clean": "rm data/revistas/*.json"
+        "start": "tsx src/pipeline.ts"
     },
     "keywords": [],
     "author": "",
