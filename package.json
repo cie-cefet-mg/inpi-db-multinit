@@ -1,14 +1,12 @@
 {
     "name": "inpi-db",
     "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
+    "private": true,
     "scripts": {
-        "start": "tsx src/pipeline.ts"
+        "build": "tsup src/pipeline.ts --minify",
+        "start": "node dist/pipeline.js"
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "license": "UNLICENSED",
     "devDependencies": {
         "@types/adm-zip": "^0.5.0",
         "@types/isomorphic-fetch": "^0.0.36",
