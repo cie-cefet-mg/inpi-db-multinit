@@ -20,7 +20,7 @@ export class Journal {
     get isDownloaded(): boolean {
         const extensions = [".zip", ".json", ".new.json"];
         return extensions.some((extension) => {
-            const filePath = path.join(this.section.directoryPath, `${this.identifier}${extension}`);
+            const filePath = path.join(this.section.journalsDirectoryPath, `${this.identifier}${extension}`);
             return fs.existsSync(filePath);
         });
     }

@@ -3,8 +3,9 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "build": "tsup src/pipeline.ts --minify",
-        "start": "node dist/pipeline.js"
+        "download": "tsx src/pipeline/download.ts",
+        "parse": "tsx src/pipeline/parse.ts",
+        "explore": "tsx src/pipeline/explore.ts"
     },
     "license": "UNLICENSED",
     "devDependencies": {

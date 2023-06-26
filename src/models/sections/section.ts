@@ -3,19 +3,33 @@ import fs from "fs";
 import path from "path";
 import xml2js from "xml2js";
 import { Journal } from "../journal";
+import { baseJournalsDirectoryPath, baseProcessesDirectoryPath } from "../../constants";
 
 export type SectionIdentifier = "P" | "PC";
 
 export abstract class Section {
-    constructor(public identifier: SectionIdentifier, public directoryPath: string) {}
+    constructor(public identifier: SectionIdentifier, public directoryName: string) {}
 
     abstract parse(value: { [key: string]: any }): { [key: string]: any } | null;
+    abstract explore(jsonPath: string): void;
+
+    get journalsDirectoryPath() {
+        return path.join(baseJournalsDirectoryPath, this.directoryName);
+    }
+
+    get processesDirectoryPath() {
+        return path.join(baseProcessesDirectoryPath, this.directoryName);
+    }
 
     async downloadAll() {
         const urls = this.createDownloadList();
 
         if (urls.length === 0) {
             return;
+        }
+
+        if (!fs.existsSync(this.journalsDirectoryPath)) {
+            fs.mkdirSync(this.journalsDirectoryPath, { recursive: true });
         }
 
         // Throttle download to 100 request per minute.
@@ -37,9 +51,9 @@ export abstract class Section {
     async parseAll() {
         // Check zips that don't have a JSON file.
         const zipPaths = fs
-            .readdirSync(this.directoryPath)
+            .readdirSync(this.journalsDirectoryPath)
             .filter((file) => file.endsWith(".zip"))
-            .map((zip) => path.join(this.directoryPath, zip))
+            .map((zip) => path.join(this.journalsDirectoryPath, zip))
             .filter((zip) => {
                 const jsonFile = zip.replace(".zip", ".json");
                 const jsonNewFile = zip.replace(".zip", ".new.json");
@@ -66,12 +80,23 @@ export abstract class Section {
         }
     }
 
+    async exploreAll() {
+        const jsonPaths = fs
+            .readdirSync(this.journalsDirectoryPath)
+            .filter((file) => file.endsWith(".new.json"))
+            .map((json) => path.join(this.journalsDirectoryPath, json));
+
+        if (!fs.existsSync(this.processesDirectoryPath)) {
+            fs.mkdirSync(this.processesDirectoryPath, { recursive: true });
+        }
+
+        for (const jsonPath of jsonPaths) {
+            this.explore(jsonPath);
+        }
+    }
+
     private async download(url: URL) {
         try {
-            if (!fs.existsSync(this.directoryPath)) {
-                fs.mkdirSync(this.directoryPath, { recursive: true });
-            }
-
             const response = await fetch(url, { method: "GET" });
 
             if (response.url.includes("error") || response.redirected) {
@@ -87,7 +112,7 @@ export abstract class Section {
 
             // Write zip to disk
             const zipFilename = url.pathname.replace("/txt/", "");
-            const zipPath = path.join(this.directoryPath, zipFilename);
+            const zipPath = path.join(this.journalsDirectoryPath, zipFilename);
 
             const file = fs.openSync(zipPath, "w");
             fs.writeSync(file, zipBuffer);

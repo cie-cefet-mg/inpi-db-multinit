@@ -1,3 +1,4 @@
 import path from "path";
 
-export const journalsDirectoryPath = path.join("data", "revistas");
+export const baseJournalsDirectoryPath = path.join("data", "revistas");
+export const baseProcessesDirectoryPath = path.join("data", "processos");
