@@ -1,5 +1,8 @@
 name: Update dataset
-on: workflow_dispatch
+on:
+    workflow_dispatch:
+    schedule:
+    - cron: "0 6 * * 3"
 jobs:
     download_journals:
         runs-on: ubuntu-latest
