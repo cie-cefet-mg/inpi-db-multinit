@@ -5,7 +5,7 @@ import xml2js from "xml2js";
 import { Journal } from "../journal";
 import { baseJournalsDirectoryPath, baseProcessesDirectoryPath } from "../../constants";
 
-export type SectionIdentifier = "P" | "PC";
+export type SectionIdentifier = "P" | "PC" | "RM";
 
 export abstract class Section {
     constructor(public identifier: SectionIdentifier, public directoryName: string) {}
