@@ -14,9 +14,9 @@ export interface BrandProcess {
     dataDeposito?: string;
     dataConcessao?: string,
     dataVigencia?: string;
-    titulo: string;
-    natureza: string;
-    apresentacao: string;
+    titulo?: string;
+    natureza?: string;
+    apresentacao?: string;
     classesNice?: {
         codigo: string;
         status: string;
@@ -28,7 +28,7 @@ export interface BrandProcess {
     }[];
     titulares?: Holder[];
     procurador?: string;
-    despachos: BrandDispatch[];
+    despachos?: BrandDispatch[];
 }
 
 export interface BrandDispatch {

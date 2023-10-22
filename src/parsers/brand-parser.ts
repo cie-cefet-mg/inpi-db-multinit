@@ -1,3 +1,5 @@
+import { getFirstElement } from "./utils-parser";
+
 export function brandParser(result: { [key: string]: any }): { [key: string]: any } {
     return {
         revista: {
@@ -92,7 +94,7 @@ function getBrandProcess(process: any) {
 function getBrandsProcess(object: any) {
     const mapProcess = (process: any) => {
         return {
-            codigo: getBrandsProcessNumber(process),
+            numero: getBrandsProcessNumber(process),
             dataDeposito: getBrandsProcessDepositDate(process),
             dataConcessao: getBrandsProcessGrantDate(process),
             dataVigencia: getBrandsProcessValidityDate(process),
@@ -107,7 +109,7 @@ function getBrandsProcess(object: any) {
         };
     };
 
-    if(!object?.revista?.processo && Array.isArray(object?.revist?.processo)) {
+    if(object?.revista?.processo && Array.isArray(object?.revista?.processo)) {
         return object.revista.processo.map(mapProcess);
     }
 
@@ -149,24 +151,33 @@ function getBrandsProcessValidityDate(brandProcess: any) {
 // ? Não há data de publicação para marcas, certo?
 
 function getBrandsProcessBrandName(brandProcess:any) {
-    if(brandProcess?.marca?.nome) {
-        return brandProcess?.marca?.nome?._;
+    let name = getFirstElement(brandProcess?.marca);
+    name = getFirstElement(name?.nome)
+    
+    if(name) {
+        return name;
     }
-
+    
     return undefined;
 }
 
 function getBrandsProcessBrandNature(brandProcess: any) {
-    if(brandProcess?.marca?.nome?.natureza) {
-        return brandProcess?.marca?.nome?.natureza;
+    let nature = getFirstElement(brandProcess?.marca);
+    nature = nature?.$?.natureza;
+
+    if(nature) {
+        return nature;
     }
 
     return undefined;
 }
 
 function getBrandsProcessBrandPresentetion(brandProcess: any) {
-    if(brandProcess?.marca?.nome?.apresentacao) {
-        return brandProcess?.marca?.nome?.apresentacao;
+    let presentetion = getFirstElement(brandProcess?.marca);
+    presentetion = presentetion?.$?.apresentacao;
+
+    if(presentetion) {
+        return presentetion;
     }
 
     return undefined;
@@ -174,13 +185,16 @@ function getBrandsProcessBrandPresentetion(brandProcess: any) {
 
 function getBrandsProcessHolders(brandProcess: any) {
     const holdersList = brandProcess?.titulares;
-
-    if(isNonEmptyArray(holdersList?.titular)) {
-        return holdersList.titular.reduce((acc: any[], holder: any) => {
+    // console.log(holdersList)
+    
+    if(isNonEmptyArray(holdersList)) {
+        return holdersList.reduce((acc: any[], holder: any) => {
+            holder = getFirstElement(holder?.titular);
+            
             const fullName = holder?.$?.["nome-razao-social"];
             const country = holder?.$?.pais;
             const state = holder?.$?.uf;
-
+            
             if(!fullName && !country && !state) {
                 return acc;
             }
@@ -199,11 +213,14 @@ function getBrandsProcessHolders(brandProcess: any) {
 }
 
 function getBrandsProcessDispaches(brandProcess: any) {
-    if(isNonEmptyArray(brandProcess?.despachos?.despacho)) {
-        return brandProcess?.despachos?.despacho.reduce((acc: any[], dispatch: any) => {
+    const dispatches = getFirstElement(brandProcess?.despachos)
+    
+    
+    if(isNonEmptyArray(dispatches?.despacho)) {
+        return dispatches?.despacho.reduce((acc: any[], dispatch: any) => {
             const code = dispatch?.$?.codigo;
             const name = dispatch?.$?.nome;
-            const description = dispatch?.$?.["texto-complementar"]?._;
+            const description = getFirstElement(dispatch?.["texto-complementar"]);
 
             if(!code && !name) {
                 return acc;
@@ -224,38 +241,42 @@ function getBrandsProcessDispaches(brandProcess: any) {
 
 function getBrandsProcessAttorney(brandProcess: any) {
     if(brandProcess?.procurador) {
-        return brandProcess?.procurador?._;
+        return getFirstElement(brandProcess?.procurador);
     }
 
     return undefined;
 }
 
 function getBrandsProcessViennaClasses(brandProcess: any) {
+    const viennaClasses = getFirstElement(brandProcess?.["classes-vienna"]);
     const mapViennaClasses = (viennaClass: any) => {
         return {
             codigo: viennaClass?.$?.codigo,
-            edicao: viennaClass?.$?.edicao,
         }
     };
 
-    if(brandProcess?.["classes-vienna"]?.["classe-vienna"] && Array.isArray(brandProcess?.["classes-vienna"]?.["classe-vienna"])) {
-        return brandProcess?.["classes-vienna"]?.["classe-vienna"].map(mapViennaClasses);
+    if(viennaClasses?.["classe-vienna"] && Array.isArray(viennaClasses?.["classe-vienna"])) {
+        return {
+            edicao: viennaClasses?.$?.edicao,
+            classes: viennaClasses?.["classe-vienna"].map(mapViennaClasses),
+        };
     }
 
     return undefined;
 }
 
 function getBrandsProcessNiceClasses(brandProcess: any) {
-    const mapNiceClasses = (niceClass: any) => {
+    let niceClass = getFirstElement(brandProcess?.["lista-classe-nice"]);
+    if(!niceClass) {
+        niceClass = getFirstElement(brandProcess?.["classe-nice"]);
+    }
+
+    if(niceClass) {
         return {
             codigo: niceClass?.$?.codigo,
             status: niceClass?.status?._,
-            especificacao: niceClass?.especificacao?._,
+            especificacao: getFirstElement(niceClass?.especificacao),
         }
-    };
-
-    if(brandProcess?.["lista-classe-nice"]?.["classe-nice"] && Array.isArray(brandProcess?.["lista-classe-nice"]?.["classe-nice"])) {
-        return brandProcess?.["lista-classe-nice"]?.["classe-nice"].map(mapNiceClasses);
     }
 
     return undefined;

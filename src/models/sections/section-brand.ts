@@ -32,6 +32,8 @@ export class SectionBrand extends Section {
             if (!processJson.despachos) {
                 processJson.despachos = [];
             }
+
+            fs.writeFileSync(processFilePath, JSON.stringify(processJson), "utf-8");
         });
 
         fs.renameSync(jsonPath, jsonPath.replace(".new", ""));
