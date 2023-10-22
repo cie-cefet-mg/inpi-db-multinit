@@ -34,6 +34,6 @@ export interface BrandProcess {
 export interface BrandDispatch {
     codigo: string;
     titulo: string;
-    rpi: string
+    rpi?: string
     comentario?: string;
 }

@@ -82,7 +82,7 @@ function getBrandProcess(process: any) {
             classesVienna: getBrandsProcessViennaClasses(process),
             titulares: getBrandsProcessHolders(process),
             produrador: getBrandsProcessAttorney(process),
-            despachos: getBrandsProcessDispaches(process, ""),
+            despachos: getBrandsProcessDispaches(process),
         };
     }
 
@@ -103,7 +103,7 @@ function getBrandsProcess(object: any) {
             classesVienna: getBrandsProcessViennaClasses(process),
             titulares: getBrandsProcessHolders(process),
             procurador: getBrandsProcessAttorney(process),
-            despachos: getBrandsProcessDispaches(process, getJournalNumber(object)),
+            despachos: getBrandsProcessDispaches(process),
         };
     };
 
@@ -198,7 +198,7 @@ function getBrandsProcessHolders(brandProcess: any) {
     return undefined;
 }
 
-function getBrandsProcessDispaches(brandProcess: any, journalNumber: string) {
+function getBrandsProcessDispaches(brandProcess: any) {
     if(isNonEmptyArray(brandProcess?.despachos?.despacho)) {
         return brandProcess?.despachos?.despacho.reduce((acc: any[], dispatch: any) => {
             const code = dispatch?.$?.codigo;
@@ -212,7 +212,6 @@ function getBrandsProcessDispaches(brandProcess: any, journalNumber: string) {
             acc.push({
                 codigo: dispatch?.$?.codigo,
                 titulo: dispatch?.$?.nome,
-                rpi: journalNumber,
                 comentario: description,
             });
 

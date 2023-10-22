@@ -27,6 +27,8 @@ export class SectionBrand extends Section {
 
             processJson = Object.assign(processJson, process);
 
+            processJson.despachos?.forEach(dispatch => dispatch.rpi = json.revista.numero);
+
             if (!processJson.despachos) {
                 processJson.despachos = [];
             }
