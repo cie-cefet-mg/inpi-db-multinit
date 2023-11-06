@@ -5,8 +5,8 @@ export function brandParser(result: { [key: string]: any }): { [key: string]: an
         revista: {
             numero: getJournalNumber(result),
             dataPublicacao: getPublicationDate(result),
-            diretoria: getSection(result),
-            processos: getBrandsProcess(result),
+            diretoria: 'Marca',
+            despachos: getDispaches(result),
         },
     };
 }
@@ -38,15 +38,14 @@ function getSection(object: any) {
     return undefined;
 }
 
-// ! ignorar essa função, ainda não apaguei pq talvez seja necessário mudar minha lógica e usala.
 function getDispaches(object: any) {
     let processes = object?.revista?.processo;
     
     if(isNonEmptyArray(processes)) {
         return processes.reduce((acc: any[], process: any) => {
-            let dispatches = process?.despachos?.despacho;
+            let dispatches = getFirstElement(process?.despachos)?.despacho;
 
-            
+            console.log(getFirstElement(process?.despachos)?.despacho);
 
             dispatches.forEach((dispatch: any)=> {
                 if(!dispatch?.$?.codigo && !dispatch?.$?.nome) {
@@ -56,8 +55,8 @@ function getDispaches(object: any) {
                 acc.push({
                     codigo: dispatch?.$?.codigo,
                     titulo: dispatch?.$?.nome,
-                    comentario: dispatch?.$?.["texto-complementar"]?._,
-                    processoMarca: getBrandsProcess(process),
+                    comentario: getFirstElement(dispatch?.["texto-complementar"]),
+                    processoMarca: getBrandProcess(process),
                 });
             });
 
@@ -69,30 +68,8 @@ function getDispaches(object: any) {
     return undefined;
 }
 
-// ! ignorar essa função, ainda não apaguei pq talvez seja necessário mudar minha lógica e usala.
 function getBrandProcess(process: any) {
-    if(!process) {
-        return {
-            numero: getBrandsProcessNumber(process),
-            dataDeposito: getBrandsProcessDepositDate(process),
-            dataConcessao: getBrandsProcessGrantDate(process),
-            dataVigencia: getBrandsProcessValidityDate(process),
-            nome: getBrandsProcessBrandName(process),
-            natureza: getBrandsProcessBrandNature(process),
-            apresentacao: getBrandsProcessBrandPresentetion(process),
-            classesNice: getBrandsProcessNiceClasses(process),
-            classesVienna: getBrandsProcessViennaClasses(process),
-            titulares: getBrandsProcessHolders(process),
-            produrador: getBrandsProcessAttorney(process),
-            despachos: getBrandsProcessDispaches(process),
-        };
-    }
-
-    return undefined;
-}
-
-function getBrandsProcess(object: any) {
-    const mapProcess = (process: any) => {
+    if(process != undefined) {
         return {
             numero: getBrandsProcessNumber(process),
             dataDeposito: getBrandsProcessDepositDate(process),
@@ -105,12 +82,7 @@ function getBrandsProcess(object: any) {
             classesVienna: getBrandsProcessViennaClasses(process),
             titulares: getBrandsProcessHolders(process),
             procurador: getBrandsProcessAttorney(process),
-            despachos: getBrandsProcessDispaches(process),
         };
-    };
-
-    if(object?.revista?.processo && Array.isArray(object?.revista?.processo)) {
-        return object.revista.processo.map(mapProcess);
     }
 
     return undefined;

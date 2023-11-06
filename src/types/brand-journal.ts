@@ -5,12 +5,12 @@ export interface BrandJournal {
         numero: string;
         dataPublicacao: string;
         diretoria: string;
-        processos: BrandProcess[];
+        despachos: BrandDispatch[];
     };
 }
 
 export interface BrandProcess {
-    numero: string;
+    numero?: string;
     dataDeposito?: string;
     dataConcessao?: string,
     dataVigencia?: string;
@@ -28,12 +28,11 @@ export interface BrandProcess {
     }[];
     titulares?: Holder[];
     procurador?: string;
-    despachos?: BrandDispatch[];
 }
 
 export interface BrandDispatch {
     codigo: string;
     titulo: string;
-    rpi?: string
     comentario?: string;
+    processoMarca: BrandProcess;
 }

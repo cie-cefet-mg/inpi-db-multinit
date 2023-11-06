@@ -2,7 +2,8 @@ import { Section } from "./section";
 import { brandParser } from "../../parsers/brand-parser";
 import path from "path";
 import fs from "fs";
-import { BrandJournal, BrandProcess } from "../../types/brand-journal";
+import { BrandDispatch, BrandJournal, BrandProcess } from "../../types/brand-journal";
+import { ExploredProcess } from "../../types/patent-process";
 
 export class SectionBrand extends Section {
     constructor() {
@@ -16,22 +17,25 @@ export class SectionBrand extends Section {
     explore(jsonPath: string): void {
         const json = JSON.parse(fs.readFileSync(jsonPath, "utf-8")) as BrandJournal;
         console.log(json.revista.numero);
-        json.revista.processos.forEach((process: BrandProcess) => {
-            const processNumber = process.numero;
+        json.revista.despachos.forEach((dispatch: BrandDispatch) => {
+            const processNumber = dispatch.processoMarca.numero;
             const processFilePath = path.join(this.processesDirectoryPath, `${processNumber}.json`);
 
-            let processJson: Partial<BrandProcess> = {};
+            let processJson: Partial<ExploredProcess> = {};
             if(fs.existsSync(processFilePath)) {
                 processJson = JSON.parse(fs.readFileSync(processFilePath, "utf-8"));
             }
 
-            processJson = Object.assign(processJson, process);
-
-            processJson.despachos?.forEach(dispatch => dispatch.rpi = json.revista.numero);
+            processJson = Object.assign(processJson, dispatch.processoMarca);
 
             if (!processJson.despachos) {
                 processJson.despachos = [];
             }
+
+            processJson.despachos = [
+                ...processJson.despachos,
+                { codigo: dispatch.codigo, titulo: dispatch.titulo, rpi: json.revista.numero },
+            ];
 
             fs.writeFileSync(processFilePath, JSON.stringify(processJson), "utf-8");
         });
