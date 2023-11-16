@@ -45,8 +45,6 @@ function getDispaches(object: any) {
         return processes.reduce((acc: any[], process: any) => {
             let dispatches = getFirstElement(process?.despachos)?.despacho;
 
-            console.log(getFirstElement(process?.despachos)?.despacho);
-
             dispatches.forEach((dispatch: any)=> {
                 if(!dispatch?.$?.codigo && !dispatch?.$?.nome) {
                     return acc;
@@ -156,8 +154,7 @@ function getBrandsProcessBrandPresentetion(brandProcess: any) {
 }
 
 function getBrandsProcessHolders(brandProcess: any) {
-    const holdersList = brandProcess?.titulares;
-    // console.log(holdersList)
+    const holdersList = brandProcess?.titulares
     
     if(isNonEmptyArray(holdersList)) {
         return holdersList.reduce((acc: any[], holder: any) => {

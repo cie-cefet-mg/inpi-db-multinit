@@ -134,3 +134,32 @@ export abstract class Section {
         return urls;
     }
 }
+
+export function isCefetMG(process: any): boolean {
+    const institutionName = {
+        beginnings: [
+            'Centro Federal',
+            'CEFET'
+        ],
+        endings: [
+            'Minas Gerais',
+            'MG'
+        ],
+    }
+    
+    let match = false;
+    for (const beginning of institutionName.beginnings) {
+        for (const end of institutionName.endings) {
+            const patern = `^(${beginning}){1}[\\w\\s\\W]*(${end})$`;
+            const regex = RegExp(patern, 'i');
+            
+            process.titulares?.forEach((holder: any) => {
+                
+                match = regex.test(holder.nomeCompleto) ? true : match;
+            })
+
+        }
+    }
+
+    return match;
+}
