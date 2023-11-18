@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs";
 import { BrandDispatch, BrandJournal, BrandProcess } from "../../types/brand-journal";
 import { ExploredProcess } from "../../types/patent-process";
-import { isCefetMG } from "./section";
+import { isICT } from "./section";
 
 export class SectionBrand extends Section {
     constructor() {
@@ -19,7 +19,7 @@ export class SectionBrand extends Section {
         const json = JSON.parse(fs.readFileSync(jsonPath, "utf-8")) as BrandJournal;
         console.log(json.revista.numero);
         json.revista.despachos.forEach((dispatch: BrandDispatch) => {
-            if(!isCefetMG(dispatch.processoMarca)) {
+            if(!isICT(dispatch.processoMarca)) {
                 return;
             }
             

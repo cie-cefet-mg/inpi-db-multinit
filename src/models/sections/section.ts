@@ -4,6 +4,7 @@ import path from "path";
 import xml2js from "xml2js";
 import { Journal } from "../journal";
 import { baseJournalsDirectoryPath, baseProcessesDirectoryPath } from "../../constants";
+import { ICTConfig, ICTNamePattern } from "../../types/ict-config";
 
 export type SectionIdentifier = "P" | "PC" | "RM";
 
@@ -135,30 +136,30 @@ export abstract class Section {
     }
 }
 
-export function isCefetMG(process: any): boolean {
-    const institutionName = {
-        beginnings: [
-            'Centro Federal',
-            'CEFET'
-        ],
-        endings: [
-            'Minas Gerais',
-            'MG'
-        ],
-    }
-    
+export function isICT(process: any): boolean {
     let match = false;
-    for (const beginning of institutionName.beginnings) {
-        for (const end of institutionName.endings) {
-            const patern = `^(${beginning}){1}[\\w\\s\\W]*(${end})$`;
+    const ictConfigPath = "ictconfig.json";
+    
+    let ictConfig: ICTConfig;
+    if(fs.existsSync(ictConfigPath)) {
+        ictConfig = JSON.parse(fs.readFileSync(ictConfigPath, "utf-8"));
+        console.log(ictConfig);
+
+
+        ictConfig.namesPatterns.forEach((ictPattern: ICTNamePattern) => {
+            if(ictPattern.beginning.length == 0 || ictPattern.ending.length == 0) {
+                match = true;
+                return;
+            }
+
+            const patern = `^(${ictPattern.beginning}){1}[\\w\\s\\W]*(${ictPattern.ending})$`;
             const regex = RegExp(patern, 'i');
             
             process.titulares?.forEach((holder: any) => {
-                
                 match = regex.test(holder.nomeCompleto) ? true : match;
-            })
-
-        }
+            });
+        });
+        
     }
 
     return match;

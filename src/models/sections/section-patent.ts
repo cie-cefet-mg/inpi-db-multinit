@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import { PatentJournal } from "../../types/patent-journal";
 import { ExploredProcess } from "../../types/patent-process";
-import { isCefetMG } from "./section";
+import { isICT } from "./section";
 
 export class SectionPatent extends Section {
     constructor() {
@@ -19,13 +19,9 @@ export class SectionPatent extends Section {
         const json = JSON.parse(fs.readFileSync(jsonPath, "utf-8")) as PatentJournal;
         console.log(json.revista.numero);
         json.revista.despachos.forEach((dispatch) => {
-            if(!isCefetMG(dispatch.processoPatente)) {
+            if(!isICT(dispatch.processoPatente)) {
                 return;
             }
-
-            // BR 10 2013 024870-3
-            // BR 10 2012 000093-8
-            // BR 10 2012 000747-9
 
             const processNumber = dispatch.processoPatente.numero;
             const processFilePath = path.join(this.processesDirectoryPath, `${processNumber}.json`);
