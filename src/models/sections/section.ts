@@ -143,7 +143,6 @@ export function isICT(process: any): boolean {
     let ictConfig: ICTConfig;
     if(fs.existsSync(ictConfigPath)) {
         ictConfig = JSON.parse(fs.readFileSync(ictConfigPath, "utf-8"));
-        console.log(ictConfig);
 
 
         ictConfig.namesPatterns.forEach((ictPattern: ICTNamePattern) => {
@@ -159,7 +158,8 @@ export function isICT(process: any): boolean {
                 match = regex.test(holder.nomeCompleto) ? true : match;
             });
         });
-        
+    } else {
+        match = true;
     }
 
     return match;
