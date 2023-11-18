@@ -146,7 +146,7 @@ export function isICT(process: any): boolean {
 
 
         ictConfig.namesPatterns.forEach((ictPattern: ICTNamePattern) => {
-            if(ictPattern.beginning.length == 0 || ictPattern.ending.length == 0) {
+            if(ictPattern.beginning.length == 0 && ictPattern.ending.length == 0) {
                 match = true;
                 return;
             }
