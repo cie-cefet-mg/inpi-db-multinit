@@ -4,8 +4,9 @@ import path from "path";
 import xml2js from "xml2js";
 import { Journal } from "../journal";
 import { baseJournalsDirectoryPath, baseProcessesDirectoryPath } from "../../constants";
+import { ICTConfig, ICTNamePattern } from "../../types/ict-config";
 
-export type SectionIdentifier = "P" | "PC";
+export type SectionIdentifier = "P" | "PC" | "RM";
 
 export abstract class Section {
     constructor(public identifier: SectionIdentifier, public directoryName: string) {}
@@ -133,4 +134,33 @@ export abstract class Section {
 
         return urls;
     }
+}
+
+export function isICT(process: any): boolean {
+    let match = false;
+    const ictConfigPath = "ictconfig.json";
+    
+    let ictConfig: ICTConfig;
+    if(fs.existsSync(ictConfigPath)) {
+        ictConfig = JSON.parse(fs.readFileSync(ictConfigPath, "utf-8"));
+
+
+        ictConfig.namesPatterns.forEach((ictPattern: ICTNamePattern) => {
+            if(ictPattern.beginning.length == 0 && ictPattern.ending.length == 0) {
+                match = true;
+                return;
+            }
+
+            const patern = `^(${ictPattern.beginning}){1}[\\w\\s\\W]*(${ictPattern.ending})$`;
+            const regex = RegExp(patern, 'i');
+            
+            process.titulares?.forEach((holder: any) => {
+                match = regex.test(holder.nomeCompleto) ? true : match;
+            });
+        });
+    } else {
+        match = true;
+    }
+
+    return match;
 }

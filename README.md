@@ -31,6 +31,38 @@ Por fim, explore os dados visando encontrar novos processos:
 npm run explore
 ```
 
+## Configurando a ICT
+
+Para que seja salvo apenas processos de um determinado Instituto de Ciência e Tecnologia (ICT), crie o arquivo ```ictconfig.json``` na pasta raiz do repositório e cole o medelo abaixo.
+
+``` json
+{
+    "namesPatterns": [
+        {
+            "beginning": "",
+            "ending": ""
+        }
+    ]
+}
+```
+
+No campo "beginning" coloque o inicio do nome da instituição e no "ending" o final desse nome. Caso seja exista mais de uma possibilidade de nome, adcione mais um "namesPatterns", como nesse exemplo:
+
+``` json
+{
+    "namesPatterns": [
+        {
+            "beginning": "CEFET",
+            "ending": "MG"
+        },
+        {
+            "beginning": "Centro Federal",
+            "ending": "Minas Gerais"
+        }
+    ]
+}
+```
+
 ## Adicionando novas seções
 O arquivo [src/sections.ts](https://github.com/cie-cefet-mg/inpi-db/blob/main/src/sections.ts), exporta as seções que serão baixadas e exploradas. O array exportado é de objetos que seguem a interface "Seção". Os passos para integrar com uma nova seção são os seguintes.
 1. Crie na pasta [src/models/sections](https://github.com/cie-cefet-mg/inpi-db/tree/main/src/models/sections), uma classe que `extends` a classe abstrada `Section`. Exemplo:

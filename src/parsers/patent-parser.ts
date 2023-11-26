@@ -1,3 +1,5 @@
+import { getFirstElement, isNonEmptyArray } from "./utils-parser";
+
 export function patentParser(result: { [key: string]: any }): { [key: string]: any } {
     return {
         revista: {
@@ -316,14 +318,4 @@ function getPatentProcessMainRequest(patentProcess: any) {
     };
 }
 
-function getFirstElement(object: any) {
-    if (isNonEmptyArray(object) && object[0]) {
-        return object[0];
-    }
 
-    return undefined;
-}
-
-function isNonEmptyArray(object: any): boolean {
-    return !!(object && Array.isArray(object) && object.length > 0);
-}

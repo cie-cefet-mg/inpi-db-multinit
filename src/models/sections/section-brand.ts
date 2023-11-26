@@ -1,37 +1,38 @@
-import { patentParser } from "../../parsers/patent-parser";
 import { Section } from "./section";
-import fs from "fs";
+import { brandParser } from "../../parsers/brand-parser";
 import path from "path";
-import { PatentJournal } from "../../types/patent-journal";
+import fs from "fs";
+import { BrandDispatch, BrandJournal, BrandProcess } from "../../types/brand-journal";
 import { ExploredProcess } from "../../types/patent-process";
 import { isICT } from "./section";
 
-export class SectionPatent extends Section {
+export class SectionBrand extends Section {
     constructor() {
-        super("P", "patente");
+        super("RM", "marca");
     }
 
     parse(value: { [key: string]: any }): { [key: string]: any } | null {
-        return patentParser(value);
+        return brandParser(value);
     }
 
     explore(jsonPath: string): void {
-        const json = JSON.parse(fs.readFileSync(jsonPath, "utf-8")) as PatentJournal;
+        const json = JSON.parse(fs.readFileSync(jsonPath, "utf-8")) as BrandJournal;
         console.log(json.revista.numero);
-        json.revista.despachos.forEach((dispatch) => {
-            if(!isICT(dispatch.processoPatente)) {
+        json.revista.despachos.forEach((dispatch: BrandDispatch) => {
+            if(!isICT(dispatch.processoMarca)) {
                 return;
             }
-
-            const processNumber = dispatch.processoPatente.numero;
+            
+            
+            const processNumber = dispatch.processoMarca.numero;
             const processFilePath = path.join(this.processesDirectoryPath, `${processNumber}.json`);
 
             let processJson: Partial<ExploredProcess> = {};
-            if (fs.existsSync(processFilePath)) {
+            if(fs.existsSync(processFilePath)) {
                 processJson = JSON.parse(fs.readFileSync(processFilePath, "utf-8"));
             }
 
-            processJson = Object.assign(processJson, dispatch.processoPatente);
+            processJson = Object.assign(processJson, dispatch.processoMarca);
 
             if (!processJson.despachos) {
                 processJson.despachos = [];
@@ -41,6 +42,7 @@ export class SectionPatent extends Section {
                 ...processJson.despachos,
                 { codigo: dispatch.codigo, titulo: dispatch.titulo, rpi: json.revista.numero },
             ];
+
             fs.writeFileSync(processFilePath, JSON.stringify(processJson), "utf-8");
         });
 
