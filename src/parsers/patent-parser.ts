@@ -1,4 +1,4 @@
-import { getFirstElement, isNonEmptyArray } from "./utils-parser";
+import { getFirstElement, isICT, isNonEmptyArray } from "./utils-parser";
 
 export function patentParser(result: { [key: string]: any }): { [key: string]: any } {
     return {
@@ -40,16 +40,21 @@ function getSection(object: any) {
 
 // despachos
 function getDispaches(object: any) {
+    let dispatches:any = [];
+
     const mapDispatch = (dispatch: any) => {
-        return {
+        const newDispatch = {
             codigo: getDispatchCode(dispatch),
             titulo: getDispatchTitle(dispatch),
             processoPatente: getDispatchPatentProcess(dispatch),
         };
+
+        if(isICT(newDispatch.processoPatente)) dispatches.push(newDispatch);
     };
 
     if (object?.revista?.despacho && Array.isArray(object?.revista?.despacho)) {
-        return object?.revista?.despacho.map(mapDispatch);
+        object?.revista?.despacho.forEach(mapDispatch);
+        return dispatches;
     }
 
     return undefined;
