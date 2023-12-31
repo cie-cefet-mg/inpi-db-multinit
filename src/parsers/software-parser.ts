@@ -149,15 +149,15 @@ function getSoftwareProcessApplicationFields(softwareProcess: any) {
 }
 
 function getSoftwareProcessLanguages(softwareProcess: any) {
-    const languagesList = getFirstElement(softwareProcess?.["linguagem-lista"]);
+    const languagesList = getFirstElement(softwareProcess?.linguagemLista);
 
-    if (isNonEmptyArray(languagesList)) {
-        return languagesList.reduce((acc: any[], linguagemAtual: any) => {
+    if (isNonEmptyArray(languagesList?.linguagem)) {
+        return languagesList?.linguagem.reduce((acc: any[], linguagemAtual: any) => {
             if (!linguagemAtual) {
                 return acc;
             }
     
-            acc.push(linguagemAtual);
+            acc.push(linguagemAtual._);
     
             return acc;
         }, []);
@@ -167,17 +167,17 @@ function getSoftwareProcessLanguages(softwareProcess: any) {
 }
 
 function getSoftwareProcessProgramTypes(softwareProcess: any) {
-    const programTypesList = getFirstElement(softwareProcess?.["tipo-programa-lista"]);
+    const programTypesList = getFirstElement(softwareProcess?.tipoProgramaLista);
 
-    if (isNonEmptyArray(programTypesList?.["tipo-programa"])) {
-        return programTypesList?.["tipo-programa"].reduce((acc: any[], tipoProgramaAtual: any) => {
+    if (isNonEmptyArray(programTypesList?.tipoPrograma)) {
+        return programTypesList?.tipoPrograma.reduce((acc: any[], tipoProgramaAtual: any) => {
             const codigo = getFirstElement(tipoProgramaAtual?.codigo);
             
             if (!codigo) {
                 return acc;
             }
 
-            acc.push(codigo);
+            acc.push(codigo._);
 
             return acc;
         }, []);
@@ -187,7 +187,7 @@ function getSoftwareProcessProgramTypes(softwareProcess: any) {
 }
 
 function getSoftwareProcessHolders(softwareProcess: any) {
-    const holdersList = getFirstElement(softwareProcess?.["titular-lista"]);
+    const holdersList = getFirstElement(softwareProcess?.titularLista);
 
     if (isNonEmptyArray(holdersList?.titular)) { 
         return holdersList.titular.reduce((acc: any[], holderAtual: any) => {
@@ -207,7 +207,7 @@ function getSoftwareProcessHolders(softwareProcess: any) {
 }
 
 function getSoftwareInventors(softwareProcess: any) {
-    const inventorsList = getFirstElement(softwareProcess?.["criador-lista"]);
+    const inventorsList = getFirstElement(softwareProcess?.criadorLista);
 
     if (isNonEmptyArray(inventorsList?.criador)) {
         return inventorsList.criador.reduce((acc: any[], inventorAtual: any) => {
