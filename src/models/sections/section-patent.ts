@@ -4,7 +4,6 @@ import fs from "fs";
 import path from "path";
 import { PatentJournal } from "../../types/patent-journal";
 import { ExploredProcess } from "../../types/patent-process";
-import { isICT } from "./section";
 
 export class SectionPatent extends Section {
     constructor() {
@@ -19,10 +18,6 @@ export class SectionPatent extends Section {
         const json = JSON.parse(fs.readFileSync(jsonPath, "utf-8")) as PatentJournal;
         console.log(json.revista.numero);
         json.revista.despachos.forEach((dispatch) => {
-            if(!isICT(dispatch.processoPatente)) {
-                return;
-            }
-
             const processNumber = dispatch.processoPatente.numero;
             const processFilePath = path.join(this.processesDirectoryPath, `${processNumber}.json`);
 

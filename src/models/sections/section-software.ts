@@ -4,7 +4,6 @@ import path from "path";
 import fs from "fs";
 import { SoftwareJournal } from "../../types/software-journal";
 import { ExploredProcess } from "../../types/patent-process";
-import { isICT } from "./section";
 
 export class SectionSoftware extends Section {
     constructor() {
@@ -19,10 +18,6 @@ export class SectionSoftware extends Section {
         const json = JSON.parse(fs.readFileSync(jsonPath, "utf-8")) as SoftwareJournal;
         console.log(json.revista.numero);
         json.revista.despachos.forEach((dispatch: any) => {
-            if(!isICT(dispatch.processoSoftware)) {
-                return;
-            }
-            
             let processNumber = dispatch.processoSoftware.numero;
             
             if (String(processNumber).length == 24) {

@@ -1,4 +1,4 @@
-import { getFirstElement } from "./utils-parser";
+import { getFirstElement, isICT } from "./utils-parser";
 
 export function brandParser(result: { [key: string]: any }): { [key: string]: any } {
     return {
@@ -50,12 +50,16 @@ function getDispaches(object: any) {
                     return acc;
                 }
 
-                acc.push({
+                const newDispatch = {
                     codigo: dispatch?.$?.codigo,
                     titulo: dispatch?.$?.nome,
                     comentario: getFirstElement(dispatch?.["texto-complementar"]),
                     processoMarca: getBrandProcess(process),
-                });
+                }
+
+                if(isICT(newDispatch.processoMarca)) {
+                    acc.push(newDispatch);
+                }
             });
 
             return acc
