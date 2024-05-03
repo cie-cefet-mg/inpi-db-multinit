@@ -104,8 +104,7 @@ export abstract class Section {
 
             // Checks if a zip file is downloaded
             if (!response.ok || contentType?.indexOf("application/zipp")==-1) {
-                console.error(new Error(`Error while downloading "${url.href}"`));
-                return;
+                throw new Error();
             }
 
             const zipBuffer = Buffer.from(await response.arrayBuffer());
