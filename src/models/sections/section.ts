@@ -100,8 +100,11 @@ export abstract class Section {
         try {
             const response = await fetch(url, { method: "GET" });
 
-            if (response.url.includes("error") || response.redirected) {
-                console.error(`Error while downloading "${url.href}"`);
+            const contentType = response.headers.get("content-type");
+
+            // Checks if a zip file is downloaded
+            if (!response.ok || contentType?.indexOf("application/zip")==-1) {
+                console.error(new Error(`Error while downloading "${url.href}"`));
                 return;
             }
 
