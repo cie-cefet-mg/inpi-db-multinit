@@ -122,6 +122,7 @@ export abstract class Section {
             fs.closeSync(file);
         } catch (e) {
             console.error(`Error while downloading "${url.href}"`);
+            throw e;
         }
     }
 
