@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs";
 
 export class Journal {
-    private baseUrl = "http://revistas.inpi.gov.br/txt/";
+    private baseUrl = "https://revistas.inpi.gov.br/txt/";
 
     static firstJournal = 2474;
     static get lastPublication(): number {
