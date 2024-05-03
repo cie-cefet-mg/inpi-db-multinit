@@ -103,7 +103,7 @@ export abstract class Section {
             const contentType = response.headers.get("content-type");
 
             // Checks if a zip file is downloaded
-            if (!response.ok || contentType?.indexOf("application/zip")==-1) {
+            if (!response.ok || contentType?.indexOf("application/zipp")==-1) {
                 console.error(new Error(`Error while downloading "${url.href}"`));
                 return;
             }
