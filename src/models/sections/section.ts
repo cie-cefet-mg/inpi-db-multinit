@@ -103,7 +103,7 @@ export abstract class Section {
             const contentType = response.headers.get("content-type");
 
             // Checks if a zip file is downloaded
-            if (!response.ok || contentType?.indexOf("application/zipp")==-1) {
+            if (!response.ok || contentType?.indexOf("application/zip")==-1) {
                 throw new Error();
             }
 
@@ -121,8 +121,9 @@ export abstract class Section {
             fs.writeSync(file, zipBuffer);
             fs.closeSync(file);
         } catch (e) {
-            console.error(`Error while downloading "${url.href}"`);
+            console.error(`Error while downloading "${url.href}"`, e);
             throw e;
+            //core.setFailed(`Error while downloading "${url.href}"`);
         }
     }
 
