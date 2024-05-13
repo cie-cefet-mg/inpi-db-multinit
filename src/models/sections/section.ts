@@ -6,6 +6,8 @@ import { Journal } from "../journal";
 import { baseJournalsDirectoryPath, baseProcessesDirectoryPath } from "../../constants";
 import { ICTConfig, ICTNamePattern } from "../../types/ict-config";
 
+import * as core from '@actions/core';
+
 export type SectionIdentifier = "P" | "PC" | "RM";
 
 export abstract class Section {
@@ -122,7 +124,8 @@ export abstract class Section {
             fs.closeSync(file);
         } catch (e) {
             console.error(`Error while downloading "${url.href}"`, e);
-            throw e;
+            //throw e;
+            core.setFailed(`Error while downloading "${url.href}"`);
             //core.setFailed(`Error while downloading "${url.href}"`);
         }
     }
