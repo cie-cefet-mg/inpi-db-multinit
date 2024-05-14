@@ -6,7 +6,7 @@ import { Journal } from "../journal";
 import { baseJournalsDirectoryPath, baseProcessesDirectoryPath } from "../../constants";
 import { ICTConfig, ICTNamePattern } from "../../types/ict-config";
 
-import * as core from '@actions/core';
+//import * as core from '@actions/core';
 
 export type SectionIdentifier = "P" | "PC" | "RM";
 
@@ -105,7 +105,7 @@ export abstract class Section {
             const contentType = response.headers.get("content-type");
 
             // Checks if a zip file is downloaded
-            if (!response.ok || contentType?.indexOf("application/zipp")==-1) {
+            if (!response.ok || contentType?.indexOf("application/zip")==-1) {
                 throw new Error();
             }
 
@@ -125,7 +125,6 @@ export abstract class Section {
         } catch (e) {
             console.error(`Error while downloading "${url.href}"`, e);
             //throw e;
-            core.setFailed(`Error while downloading "${url.href}"`);
             //core.setFailed(`Error while downloading "${url.href}"`);
         }
     }
