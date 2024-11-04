@@ -1,4 +1,4 @@
-import { getFirstElement, isICT } from "./utils-parser";
+import { getFirstElement, initializeSiglasArray, isICT, siglaICT } from "./utils-parser";
 
 export function brandParser(result: { [key: string]: any }): { [key: string]: any } {
     return {
@@ -57,7 +57,9 @@ function getDispaches(object: any) {
                     processoMarca: getBrandProcess(process),
                 }
 
-                if(isICT(newDispatch.processoMarca)) {
+                const siglas: string[] = siglaICT(newDispatch.processoMarca)
+                if (isNonEmptyArray(siglas) && newDispatch.processoMarca){
+                    newDispatch.processoMarca.siglasTitulares.push(...siglas);
                     acc.push(newDispatch);
                 }
             });
@@ -83,6 +85,7 @@ function getBrandProcess(process: any) {
             classesNice: getBrandsProcessNiceClasses(process),
             classesVienna: getBrandsProcessViennaClasses(process),
             titulares: getBrandsProcessHolders(process),
+            siglasTitulares: initializeSiglasArray(),
             procurador: getBrandsProcessAttorney(process),
         };
     }

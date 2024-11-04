@@ -42,4 +42,27 @@ export class SectionBrand extends Section {
 
         fs.renameSync(jsonPath, jsonPath.replace(".new", ""));
     }
+
+    sortIntoICTDirs(journal: BrandJournal, path: string): void {
+        const siglasICTs = ['cefetmg', 'ifgoiano', 'ifmg', 'ifnmg', 'ifsemg', 'utfpr'];
+        for(let sigla in siglasICTs) {
+            const pathIctJournal = [path.slice(0, 4), ("/" + siglasICTs[sigla]), path.slice(4)].join("");
+            let ictJournal: BrandJournal = JSON.parse(JSON.stringify(journal));
+            ictJournal.revista.despachos = [];
+            fs.writeFileSync(pathIctJournal, JSON.stringify(ictJournal), 'utf-8');
+        }
+    
+        journal.revista.despachos.forEach((despacho: BrandDispatch) => {
+            //adiciona os despachos
+            const siglasICTDespacho: string[] = despacho.processoMarca.siglasTitulares;
+            for(let sigla in siglasICTDespacho) {
+                const pathIctJournal = [path.slice(0, 4), ("/" + siglasICTDespacho[sigla]), path.slice(4)].join("");
+                let ictJournal: BrandJournal = JSON.parse(fs.readFileSync(pathIctJournal, "utf-8"));
+                ictJournal.revista.despachos.push(despacho);
+                fs.writeFileSync(pathIctJournal, JSON.stringify(ictJournal), 'utf-8');
+            }
+        });
+    }
+
+
 }

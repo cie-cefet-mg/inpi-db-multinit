@@ -7,6 +7,73 @@
         {
             "beginning": "Centro Federal",
             "ending": "Minas Gerais"
+        },
+
+
+
+        {
+            "beginning": "Universidade Tec",
+            "ending": "Federal do Parana"
+        },
+        {
+            "beginning": "UTFPR",
+            "ending": ""
+        },
+
+
+
+        {
+            "beginning": "Instituto Federal",
+            "ending": "Goiano"
+        },
+        {
+            "beginning": "IF",
+            "ending": "Goiano"
+        },
+
+
+
+        {
+            "beginning": "Instituto Federal",
+            "ending": "Tecnologia de Minas Gerais"
+        },
+        {
+            "beginning": "IFMG",
+            "ending": ""
+        },
+        {
+            "beginning": "Instituto",
+            "ending": "Federal de Minas Gerais"
+        },
+
+
+
+        {
+            "beginning": "Instituto Federal",
+            "ending": "do Sudeste de Minas Gerais"
+        },
+        {
+            "beginning": "IF",
+            "ending": "Sudeste MG"
+        },
+        {
+            "beginning": "IF",
+            "ending": "Sudeste de Minas Gerais"
+        },
+
+
+
+        {
+            "beginning": "Instituto Federal",
+            "ending": "Norte de Minas Gerais"
+        },
+        {
+            "beginning": "IFNMG",
+            "ending": ""
+        },
+        {
+            "beginning": "IF",
+            "ending": "Norte de Minas Gerais"
         }
     ]
 }

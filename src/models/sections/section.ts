@@ -6,8 +6,6 @@ import { Journal } from "../journal";
 import { baseJournalsDirectoryPath, baseProcessesDirectoryPath } from "../../constants";
 import { ICTConfig, ICTNamePattern } from "../../types/ict-config";
 
-//import * as core from '@actions/core';
-
 export type SectionIdentifier = "P" | "PC" | "RM";
 
 export abstract class Section {
@@ -15,6 +13,8 @@ export abstract class Section {
 
     abstract parse(value: { [key: string]: any }): { [key: string]: any } | null;
     abstract explore(jsonPath: string): void;
+
+    abstract sortIntoICTDirs(journal: any, path: string): void;
 
     get journalsDirectoryPath() {
         return path.join(baseJournalsDirectoryPath, this.directoryName);
@@ -80,6 +80,9 @@ export abstract class Section {
 
             const jsonPath = zipPath.replace(".zip", ".new.json");
             fs.writeFileSync(jsonPath, JSON.stringify(json));
+
+            const jsonPathIct = zipPath.replace(".zip", ".json");
+            this.sortIntoICTDirs(json, jsonPathIct);
         }
     }
 

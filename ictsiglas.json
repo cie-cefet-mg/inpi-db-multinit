@@ -1,0 +1,94 @@
+{
+    "padroes": [
+        {
+            "beginning": "CEFET",
+            "ending": "MG",
+            "sigla": "cefetmg"
+        },
+        {
+            "beginning": "Centro Federal",
+            "ending": "Minas Gerais",
+            "sigla":"cefetmg"
+        },
+
+
+
+        {
+            "beginning": "Universidade Tec",
+            "ending": "Federal do Parana",
+            "sigla": "utfpr"
+        },
+        {
+            "beginning": "UTFPR",
+            "ending": "",
+            "sigla": "utfpr"
+        },
+
+
+
+        {
+            "beginning": "Instituto Federal",
+            "ending": "Goiano",
+            "sigla": "ifgoiano"
+        },
+        {
+            "beginning": "IF",
+            "ending": "Goiano",
+            "sigla": "ifgoiano"
+        },
+
+
+
+        {
+            "beginning": "Instituto Federal",
+            "ending": "Tecnologia de Minas Gerais",
+            "sigla": "ifmg"
+        },
+        {
+            "beginning": "IFMG",
+            "ending": "",
+            "sigla": "ifmg"
+        },
+        {
+            "beginning": "Instituto",
+            "ending": "Federal de Minas Gerais",
+            "sigla":"ifmg"
+        },
+
+
+
+        {
+            "beginning": "Instituto Federal",
+            "ending": "do Sudeste de Minas Gerais",
+            "sigla":"ifsemg"
+        },
+        {
+            "beginning": "IF",
+            "ending": "Sudeste MG",
+            "sigla":"ifsemg"
+        },
+        {
+            "beginning": "IF",
+            "ending": "Sudeste de Minas Gerais",
+            "sigla":"ifsemg"
+        },
+
+
+
+        {
+            "beginning": "Instituto Federal",
+            "ending": "Norte de Minas Gerais",
+            "sigla":"ifnmg"
+        },
+        {
+            "beginning": "IFNMG",
+            "ending": "",
+            "sigla":"ifnmg"
+        },
+        {
+            "beginning": "IF",
+            "ending": "Norte de Minas Gerais",
+            "sigla":"ifnmg"
+        }
+    ]
+}

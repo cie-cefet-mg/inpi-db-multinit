@@ -21,5 +21,6 @@ export interface SoftwareProcess {
     linguagens?: string[];
     tiposPrograma?: string[];
     titulares?: string[];
+    siglasTitulares: string[];
     criadores?: string[];
 }

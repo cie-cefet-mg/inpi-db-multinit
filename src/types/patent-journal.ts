@@ -29,6 +29,7 @@ export interface PatentProcess {
     titulo?: string;
     IPC?: string[];
     titulares?: Holder[];
+    siglasTitulares: string[]; 
     inventores?: string[];
     prioridadesUnionistas?: {
         siglaPais: string;

@@ -1,4 +1,4 @@
-import { getFirstElement, isICT, isNonEmptyArray } from "./utils-parser";
+import { getFirstElement, isICT, isNonEmptyArray, siglaICT, initializeSiglasArray } from "./utils-parser";
 
 export function patentParser(result: { [key: string]: any }): { [key: string]: any } {
     return {
@@ -49,7 +49,13 @@ function getDispaches(object: any) {
             processoPatente: getDispatchPatentProcess(dispatch),
         };
 
-        if(isICT(newDispatch.processoPatente)) dispatches.push(newDispatch);
+        const siglas: string[] = siglaICT(newDispatch.processoPatente)
+        if (isNonEmptyArray(siglas) && newDispatch.processoPatente){
+            newDispatch.processoPatente.siglasTitulares.push(...siglas);
+            dispatches.push(newDispatch);
+        }
+
+
     };
 
     if (object?.revista?.despacho && Array.isArray(object?.revista?.despacho)) {
@@ -97,6 +103,7 @@ function getDispatchPatentProcess(dispatch: any) {
         titulo: getPatentProcessTitle(patentProcess),
         IPC: getPatentProcessInternationalClassification(patentProcess),
         titulares: getPatentProcessHolders(patentProcess),
+        siglasTitulares: initializeSiglasArray(),
         inventores: getPatentInventors(patentProcess),
         prioridadesUnionistas: getPatentProcessUnionistPriorities(patentProcess),
         divisaoPedido: getPatentProcessDivisionRequest(patentProcess),

@@ -27,6 +27,7 @@ export interface BrandProcess {
         edicao: string;
     }[];
     titulares?: Holder[];
+    siglasTitulares: string[]; 
     procurador?: string;
 }
 
